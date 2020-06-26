@@ -1,12 +1,10 @@
 <template>
   <div>
-    <div>
-      <img
-        v-for="image in allImages"
-        :key="image.id"
-        :src="image.link"
-        :alt="image.name"
-      />
+    <div v-if="isLoggedIn" class="image-container">
+      <img v-for="image in allImages" :key="image.id" :src="image.link" :alt="image.name" />
+    </div>
+    <div v-else>
+      <h1>Login Please......</h1>
     </div>
   </div>
 </template>
@@ -16,12 +14,23 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ImageList",
-  computed: mapGetters(["allImages"]),
+  computed: mapGetters(["allImages", "isLoggedIn"]),
   methods: mapActions(["fetchImages"]),
   created() {
-    this.fetchImages();
-  },
+    if (this.isLoggedIn) {
+      this.fetchImages();
+    }
+  }
 };
 </script>
 
-<style></style>
+<style>
+.image-container {
+  column-count: 2;
+  column-gap: 0;
+}
+img {
+  max-width: 100%;
+  padding: 5px;
+}
+</style>

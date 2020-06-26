@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 const state = {
   images: [],
@@ -29,7 +30,28 @@ const actions = {
       console.error(err.respose);
     }
   },
-  uploadImages() {},
+  uploadImages({ rootState }, event) {
+    const fullUrl = "https://api.imgur.com/3/image";
+    const images = event.target.files;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${rootState.auth.token}`,
+      },
+    };
+
+    const promises = [];
+
+    images.forEach((image) => {
+      const formData = new FormData();
+      formData.append("image", image);
+      const promise = axios.post(fullUrl, formData, config);
+      promises.push(promise);
+    });
+
+    Promise.all(promises)
+      .then(() => router.push({ name: "ImageList" }))
+      .catch((err) => console.error(err));
+  },
 };
 
 export default {
@@ -38,3 +60,6 @@ export default {
   mutations,
   actions,
 };
+
+//post 는 data를 보내겠다. 받아라!!
+//get은 그냥 달라고 하는거
