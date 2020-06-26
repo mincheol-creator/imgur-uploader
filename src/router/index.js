@@ -1,29 +1,33 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+import AuthHandler from "../views/AuthHandler.vue";
+import ImageList from "../views/ImageList.vue";
+import UploadForm from "../views/UploadForm.vue";
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/oauth2/callback",
+    name: "AuthHandler",
+    component: AuthHandler,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/",
+    name: "ImageList",
+    component: ImageList,
+  },
+  {
+    path: "/upload",
+    name: "UploadForm",
+    component: UploadForm,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
